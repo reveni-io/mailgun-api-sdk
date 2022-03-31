@@ -1,3 +1,25 @@
 # Mailgun API SDK
 
-TODO.
+[Mailgun API SDK](https://github.com/reveni-io/mailgun-api-sdk) integrates the Mailgun API, specifically the [Templates API](https://documentation.mailgun.com/en/latest/api-templates.html#templates).
+
+## Installation
+
+    $ pip install git+https://github.com/reveni-io/mailgun-api-sdk.git
+
+## Usage
+
+.. code:: python
+
+    >>> import mailgun_sdk
+    >>> client = mailgun_sdk.Client('api_key', 'domain')
+    >>> r = client.get_templates()
+    >>> r.json()
+    [
+      ...
+    ]
+    >>> r.status_code
+    200
+
+## Documentation
+
+Mailgun API documentation is availabe at https://documentation.mailgun.com/en/latest/index.html
