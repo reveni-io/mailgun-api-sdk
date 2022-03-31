@@ -10,8 +10,8 @@
 
 .. code:: python
 
-    >>> import mailgun_sdk
-    >>> client = mailgun_sdk.Client('api_key', 'domain')
+    >>> import mailgun_api_sdk
+    >>> client = mailgun_api_sdk.Client('api_key', 'domain')
     >>> r = client.get_templates()
     >>> r.json()
     [
@@ -23,3 +23,7 @@
 ## Documentation
 
 Mailgun API documentation is availabe at https://documentation.mailgun.com/en/latest/index.html
+
+## License
+
+This package is licensed under [BSD 3-Clause "New" or "Revised" License](https://github.com/reveni-io/mailgun-api-sdk/blob/main/LICENSE).
