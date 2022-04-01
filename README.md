@@ -4,12 +4,14 @@
 
 ## Installation
 
-    $ pip install git+https://github.com/reveni-io/mailgun-api-sdk.git
+```bash
+    $ pip3 install git+https://github.com/reveni-io/mailgun-api-sdk.git
+```
 
 ## Usage
 
-.. code:: python
 
+```python
     >>> import mailgun_api_sdk
     >>> client = mailgun_api_sdk.Client('api_key', 'domain')
     >>> r = client.get_templates()
@@ -19,6 +21,7 @@
     ]
     >>> r.status_code
     200
+```
 
 ## Documentation
 
