@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 
 import json
 import requests
@@ -100,11 +100,14 @@ class Client(object):
         return self.put(f"templates/{name}", data=data)
 
     def delete_template(self, name):
-        return self.get(f"templates/{name}", **kwargs)
+        return self.delete(f"templates/{name}")
 
     # Template versions
 
-    def create_version(self, name, template, tag, comment=None, active=None):
+    def list_template_versions(self, template, params=None, **kwargs):
+        return self.get(f"templates/{template}/versions", params=params, **kwargs)
+
+    def create_template_version(self, name, template, tag, comment=None, active=None):
         data = {
             "template": template,
             "tag": tag
@@ -115,3 +118,7 @@ class Client(object):
             data.update({"active": active})
 
         return self.post(f"templates/{name}/versions", data=data)
+
+    def delete_template_version(self, template, version):
+        return self.delete(f"templates/{template}/versions/{version}")
+
