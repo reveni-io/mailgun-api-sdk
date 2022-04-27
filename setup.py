@@ -4,7 +4,7 @@ from distutils.core import setup
 
 setup(
     name='mailgun-api-sdk',
-    version='0.0.2',
+    version='0.0.3',
     description='Python Interface to the Mailgun API',
     author='reveni',
     author_email='dev@reveni.io',
