@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-__version__ = '0.0.2'
+__version__ = '0.0.3'
 
 import json
 import requests
@@ -77,13 +77,13 @@ class Client(object):
     def get_template(self, name):
         return self.get(f"templates/{name}")
 
-    def create_template(self, name, description, template=None, tag=None, engine=None, comment=None):
+    def create_template(self, name, description, content=None, tag=None, engine=None, comment=None):
         data = {
             "name": name,
             "description": description
         }
-        if template:
-            data.update({"template": template})
+        if content:
+            data.update({"template": content})
         if tag:
             data.update({"tag": tag})
         if engine:
@@ -102,14 +102,20 @@ class Client(object):
     def delete_template(self, name):
         return self.delete(f"templates/{name}")
 
+    def delete_all_templates(self):
+        return self.delete("templates")
+
     # Template versions
 
-    def list_template_versions(self, template, params=None, **kwargs):
-        return self.get(f"templates/{template}/versions", params=params, **kwargs)
+    def list_template_versions(self, name, params=None, **kwargs):
+        return self.get(f"templates/{name}/versions", params=params, **kwargs)
 
-    def create_template_version(self, name, template, tag, comment=None, active=None):
+    def get_template_version(self, name, tag):
+        return self.get(f"templates/{name}/versions/{tag}")
+
+    def create_template_version(self, name, content, tag, comment=None, active=None):
         data = {
-            "template": template,
+            "template": content,
             "tag": tag
         }
         if comment:
@@ -119,6 +125,16 @@ class Client(object):
 
         return self.post(f"templates/{name}/versions", data=data)
 
-    def delete_template_version(self, template, version):
-        return self.delete(f"templates/{template}/versions/{version}")
+    def update_template_version(self, name, tag, content=None, comment=None, active=None):
+        data = {}
+        if content:
+            data.update({"template": content})
+        if comment:
+            data.update({"comment": comment})
+        if active:
+            data.update({"active": active})
 
+        return self.put(f"templates/{name}/versions/{tag}", data=data)
+
+    def delete_template_version(self, name, tag):
+        return self.delete(f"templates/{name}/versions/{tag}")
