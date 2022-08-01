@@ -41,7 +41,7 @@ class Client(object):
         self.base_url = base_url or "https://api.eu.mailgun.net"
         self.domain = domain
 
-    def request(self, url, method, **kwargs):
+    def _request(self, url, method, **kwargs):
         response = requests.request(
             method, url,
             auth=("api", self.api_key),
@@ -53,29 +53,29 @@ class Client(object):
         return response
 
     def _endpoint(self, endpoint, method, **kwargs):
-        return self.request(
+        return self._request(
             f"{self.base_url}/v{self.version}/{self.domain}/{endpoint}", method, **kwargs)
 
-    def get(self, endpoint, params=None, **kwargs):
+    def _get(self, endpoint, params=None, **kwargs):
         kwargs.update(params or {})
         return self._endpoint(endpoint, 'GET', params=kwargs)
 
-    def post(self, endpoint, data=None):
+    def _post(self, endpoint, data=None):
         return self._endpoint(endpoint, 'POST', data=data)
 
-    def put(self, endpoint, data=None):
+    def _put(self, endpoint, data=None):
         return self._endpoint(endpoint, 'PUT', data=data)
 
-    def delete(self, endpoint, **kwargs):
+    def _delete(self, endpoint, **kwargs):
         return self._endpoint(endpoint, 'DELETE', **kwargs)
 
     # Templates
 
     def list_templates(self, params=None, **kwargs):
-        return self.get("templates", params=params, **kwargs)
+        return self._get("templates", params=params, **kwargs)
 
     def get_template(self, name):
-        return self.get(f"templates/{name}")
+        return self._get(f"templates/{name}")
 
     def create_template(self, name, description, content=None, tag=None, engine=None, comment=None):
         data = {
@@ -91,27 +91,27 @@ class Client(object):
         if comment:
             data.update({"comment": comment})
 
-        return self.post("templates", data=data)
+        return self._post("templates", data=data)
 
     def update_template(self, name, description):
         data = {
             "description": description
         }
-        return self.put(f"templates/{name}", data=data)
+        return self._put(f"templates/{name}", data=data)
 
     def delete_template(self, name):
-        return self.delete(f"templates/{name}")
+        return self._delete(f"templates/{name}")
 
     def delete_all_templates(self):
-        return self.delete("templates")
+        return self._delete("templates")
 
     # Template versions
 
     def list_template_versions(self, name, params=None, **kwargs):
-        return self.get(f"templates/{name}/versions", params=params, **kwargs)
+        return self._get(f"templates/{name}/versions", params=params, **kwargs)
 
     def get_template_version(self, name, tag):
-        return self.get(f"templates/{name}/versions/{tag}")
+        return self._get(f"templates/{name}/versions/{tag}")
 
     def create_template_version(self, name, content, tag, comment=None, active=None):
         data = {
@@ -123,7 +123,7 @@ class Client(object):
         if active:
             data.update({"active": active})
 
-        return self.post(f"templates/{name}/versions", data=data)
+        return self._post(f"templates/{name}/versions", data=data)
 
     def update_template_version(self, name, tag, content=None, comment=None, active=None):
         data = {}
@@ -134,7 +134,7 @@ class Client(object):
         if active:
             data.update({"active": active})
 
-        return self.put(f"templates/{name}/versions/{tag}", data=data)
+        return self._put(f"templates/{name}/versions/{tag}", data=data)
 
     def delete_template_version(self, name, tag):
-        return self.delete(f"templates/{name}/versions/{tag}")
+        return self._delete(f"templates/{name}/versions/{tag}")
