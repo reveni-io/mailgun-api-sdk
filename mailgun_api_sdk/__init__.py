@@ -138,3 +138,12 @@ class Client(object):
 
     def delete_template_version(self, name, tag):
         return self._delete(f"templates/{name}/versions/{tag}")
+
+    def send_email(self, to, subject, template, variables):
+        return self._post("messages", {
+            "from": "Mailgun Sandbox <postmaster@mail.reveni.dev>",
+            "to": to,
+            "subject": subject,
+            "template": template,
+            "t:variables": json.dumps(variables)
+        })
