@@ -138,3 +138,12 @@ class Client(object):
 
     def delete_template_version(self, name, tag):
         return self._delete(f"templates/{name}/versions/{tag}")
+
+    def send_email(self, to_email, from_email, subject, template, variables):
+        return self._post("messages", {
+            "to": to_email,
+            "from": from_email,
+            "subject": subject,
+            "template": template,
+            "t:variables": json.dumps(variables)
+        })
